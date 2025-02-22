@@ -7,16 +7,31 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>EV Charger Locator - India</h1>
-    <div class="search-container">
-      <input type="text" id="searchInput" placeholder="Search by city or station name..." />
-      <button id="searchButton">Search</button>
+  <div class="wrapper">
+    <div class="sidebar" id="sidebar">
+      <button class="toggle-btn" onclick="toggleSidebar()" id="toggleButton">☰</button>
+      <h2 id="welcome-text">Hello, rk</h2>
+      <nav>
+        <a id="profile-link" href="#">Profile</a>
+        <a id="settings-link" href="#">Settings</a>
+      </nav>
+      <div class="logout-section">
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </div>
     </div>
-  </header>
-  <div id="map" style="width: 80%; height: 400px;"></div>
-  <script src="./OlaMapsWebSDKNew/OlaMapsWebSDKNew/index.js"></script>
-  <script src="./OlaMapsWebSDKNew/OlaMapsWebSDKNew/olamaps-web-sdk.umd.js"></script>
-  <script type="module" src="main.js" defer></script>
+
+    <div class="content">
+      <header>
+        <h1>EV Charger Locator - India</h1>
+        <div class="search-container">
+          <input type="text" placeholder="Search by city or station name..." />
+          <button>Search</button>
+        </div>
+      </header>
+      <div id="map"></div>
+    </div>
+  </div>
+
+  <script type="module" src="main.js"></script>
 </body>
 </html>
