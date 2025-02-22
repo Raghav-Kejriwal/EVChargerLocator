@@ -19,7 +19,6 @@ function toggleForms() {
   }
 }
 
-// Sign Up Handler
 signupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const username = signupForm.querySelector('input[placeholder="Username"]').value;
@@ -32,15 +31,21 @@ signupForm.addEventListener("submit", async (e) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, email, password }),
     });
-    alert(await response.text());
+
+    if (response.ok) {
+      localStorage.setItem("user", JSON.stringify({ username })); // ✅ Store user in localStorage
+      alert("✅ Sign-up successful. Redirecting to main page...");
+      window.location.href = "index.html";
+    } else {
+      alert("❌ Sign-up failed. Please try again.");
+    }
   } catch (err) {
-    alert("Sign-up failed. Please try again.");
+    alert("❌ Error during sign-up.");
   }
 });
 
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  
   const emailOrUsername = loginForm.querySelector('input[placeholder="Username or Email"]').value;
   const password = loginForm.querySelector('input[placeholder="Password"]').value;
 
@@ -51,8 +56,14 @@ loginForm.addEventListener("submit", async (e) => {
       body: JSON.stringify({ emailOrUsername, password }),
     });
 
-    alert(await response.text());
+    if (response.ok) {
+      localStorage.setItem("user", JSON.stringify({ username: emailOrUsername })); // ✅ Store user in localStorage
+      alert("✅ Login successful. Redirecting to main page...");
+      window.location.href = "index.html";
+    } else {
+      alert("❌ Login failed. Check your credentials.");
+    }
   } catch (err) {
-    alert("❌ Login failed. Please check your credentials.");
+    alert("❌ Error during login.");
   }
 });
