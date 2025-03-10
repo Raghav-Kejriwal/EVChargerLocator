@@ -1,3 +1,4 @@
+import.meta.env; // Load environment variables
 import { OlaMaps } from 'olamaps-web-sdk';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,8 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = "auth.html";
     });
 
-    // ✅ Replace with your actual API key
-    const apiKey = ""
+    const apiKey = import.meta.env.VITE_OLA_API_KEY;
 
     const olaMaps = new OlaMaps({ apiKey });
 
@@ -48,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
             position => {
                 const userLat = position.coords.latitude;
                 const userLng = position.coords.longitude;
-                console.log(`User Location - Latitude: ${userLat}, Longitude: ${userLng}`);
 
                 myMap.setCenter([userLng, userLat]);
 
@@ -94,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             return;
                         }
 
-                        // 🔍 Step 2: Call Ola Maps Routing API for Filtered Stations
                         nearbyStations.forEach(station => {
                             const origin = `${userLat},${userLng}`;
                             const destination = `${station.latitude},${station.longitude}`;
@@ -109,19 +107,18 @@ document.addEventListener('DOMContentLoaded', () => {
                                 return response.json();
                             })
                             .then(data => {
-                                console.log("Routing API Response:", data); // ✅ Verify the API response structure
-                            
+                                console.log("Routing API Response:", data);
+
                                 if (!data.routes || data.routes.length === 0) {
                                     console.error("No routes found:", data);
                                     return;
                                 }
-                            
+
                                 const route = data.routes[0];
-                            
-                                // ✅ Correctly access distance and duration
-                                const travelDistance = data.routes[0].legs[0].readable_distance; 
-                                const travelTime = data.routes[0].legs[0].readable_duration;                                
-                            
+                                const travelDistance = route.legs[0].readable_distance;
+                                const travelTime = route.legs[0].readable_duration;
+                                const steps = route.legs[0].steps;
+
                                 const marker = olaMaps.addMarker({
                                     offset: [0, -10],
                                     anchor: 'center',
@@ -129,14 +126,24 @@ document.addEventListener('DOMContentLoaded', () => {
                                 })
                                 .setLngLat([station.longitude, station.latitude])
                                 .addTo(myMap);
-                            
+
                                 const popup = olaMaps
                                     .addPopup({ offset: [0, -30], anchor: 'bottom' })
                                     .setText(`${station.name} - ${travelDistance} km away, approx ${travelTime} mins`);
-                            
+
                                 marker.setPopup(popup);
+
+                                // ✅ Display Step-by-Step Directions Below the Map
+                                marker.getElement().addEventListener("click", () => {
+                                    const stepsContainer = document.getElementById("steps-container");
+                                    stepsContainer.innerHTML = `
+                                        <h3>Step-by-Step Directions</h3>
+                                        <ul>
+                                            ${steps.map(step => `<li>${step.instructions} (${step.readable_distance}, ${step.readable_duration})</li>`).join("")}
+                                        </ul>
+                                    `;
+                                });
                             })
-                          
                             .catch(err => console.error("Error calling Routing API:", err));
                         });
                     })
