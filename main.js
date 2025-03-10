@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ✅ Replace with your actual API key
-    const apiKey = "LKG7D88iRK74pp0udNcCH6gUGTTO2aNDb76reivs";  
+    const apiKey = ""
 
     const olaMaps = new OlaMaps({ apiKey });
 
