@@ -4,6 +4,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "http-proxy-middleware": "^3.0.3",
     "mongoose": "^8.10.1",
     "olamaps-web-sdk": "^1.1.2"
   },
@@ -11,6 +12,14 @@
     "vite": "^6.1.1"
   },
   "scripts": {
-    "dev": "vite"
-  }
+    "dev": "vite",
+    "start": "node server.js"
+  },
+  "name": "evchargerlocator",
+  "version": "1.0.0",
+  "main": "main.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }

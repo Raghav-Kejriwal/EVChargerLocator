@@ -8,5 +8,5 @@ export default defineConfig({
         auth: 'auth.html',
       },
     },
-  },
+  }
 });
