@@ -1,6 +1,35 @@
 import.meta.env; // Load environment variables
 import { OlaMaps } from 'olamaps-web-sdk';
 
+ // ✅ Sidebar toggle logic
+const sidebar = document.getElementById("sidebar");
+const toggleButton = document.getElementById("toggleButton");
+
+const profileLink = document.getElementById("profile-link");
+const settingsLink = document.getElementById("settings-link");
+const logoutSection = document.querySelector(".logout-section");
+const welcomeText = document.getElementById("welcome-text"); // ✅ Fixed missing reference
+
+toggleButton.addEventListener("click", () => {
+    sidebar.classList.toggle("collapsed");
+
+    const isCollapsed = sidebar.classList.contains("collapsed");
+
+    if (isCollapsed) {
+        profileLink.style.display = "none";
+        settingsLink.style.display = "none";
+        logoutSection.style.display = "none";
+        welcomeText.style.display = "none";
+    } else {
+        profileLink.style.display = "block";
+        settingsLink.style.display = "block";
+        logoutSection.style.display = "flex";
+        welcomeText.style.display = "block";
+    }
+});
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
@@ -142,6 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                             ${steps.map(step => `<li>${step.instructions} (${step.readable_distance}, ${step.readable_duration})</li>`).join("")}
                                         </ul>
                                     `;
+
+                                    showActivityBoxes(station.station_id);
                                 });
                             })
                             .catch(err => console.error("Error calling Routing API:", err));
@@ -152,6 +183,47 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             alert("Geolocation is not supported by this browser.");
         }
+
+    let activitiesData = [];
+
+    // 🚀 Fetch activities from activities.json
+    fetch("activities.json")
+        .then(response => response.json())
+        .then(data => {
+            activitiesData = data;
+        })
+        .catch(error => console.error("Error loading activities:", error));
+
+    function showActivityBoxes(stationId) {
+        const activityContainer = document.getElementById("activity-container");
+        activityContainer.innerHTML = ""; // Clear previous activities
+
+        // 🔍 Filter activities for this station
+        const stationActivities = activitiesData.filter(activity => activity.StationId === stationId);
+
+        if (stationActivities.length === 0) {
+            activityContainer.innerHTML = "<p>No activities found for this station.</p>";
+            return;
+        }
+
+        // 🎲 Pick 3 random activities
+        const selectedActivities = stationActivities.length > 3
+            ? stationActivities.sort(() => 0.5 - Math.random()).slice(0, 3)
+            : stationActivities;
+
+        // 📦 Create activity boxes
+        selectedActivities.forEach(activity => {
+            const activityBox = document.createElement("div");
+            activityBox.classList.add("activity-box");
+            activityBox.innerHTML = `
+                <h3>${activity.Name}</h3>
+                <p>${activity.Description}</p>
+            `;
+            activityContainer.appendChild(activityBox);
+        });
+
+        activityContainer.style.display = "flex";
+    }
     });
 
     // ✅ Haversine Distance Function (Calculates distance in km)

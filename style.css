@@ -9,13 +9,13 @@
   .wrapper {
     display: flex;
     width: 100%;
-    height: 100vh;
+    height: 100%;
   }
   
   /* Sidebar */
   .sidebar {
     width: 220px;
-    height: 100vh;
+    min-height: 100%;
     background-color: #2c3e50;
     color: #ecf0f1;
     padding: 20px;
@@ -23,12 +23,18 @@
     flex-direction: column;
     gap: 20px;
     transition: width 0.3s ease;
+    overflow-y: auto;
   }
   
   .sidebar.collapsed {
     width: 60px;
     overflow: hidden;
   }
+  .sidebar.collapsed h2,
+.sidebar.collapsed nav a,
+.sidebar.collapsed .logout-section {
+    display: none;
+}
   
   /* Toggle Button */
   .toggle-btn {
@@ -85,7 +91,7 @@
   
   /* Content Area */
   .content {
-    flex: 1;
+    flex-grow: 1;
     padding: 20px;
     transition: margin-left 0.3s ease;
   }
@@ -160,4 +166,35 @@
 }
 .steps-box li {
     margin-bottom: 5px;
+}
+/* Activity Box Container */
+.activity-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.activity-box {
+  width: 30%;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.activity-box:hover {
+  transform: scale(1.05);
+}
+
+.activity-box h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #2c3e50;
+}
+
+.activity-box p {
+  font-size: 14px;
+  color: #7f8c8d;
 }
