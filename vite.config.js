@@ -6,6 +6,7 @@ export default defineConfig({
       input: {
         main: 'index.html',
         auth: 'auth.html',
+        profile: 'profile.html',
       },
     },
   }

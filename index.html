@@ -12,8 +12,7 @@
       <button class="toggle-btn" onclick="toggleSidebar()" id="toggleButton">☰</button>
       <h2 id="welcome-text">Hello, rk</h2>
       <nav>
-        <a id="profile-link" href="#">Profile</a>
-        <a id="settings-link" href="#">Settings</a>
+        <a id="profile-link" href="profile.html">Profile</a>
       </nav>
       <div class="logout-section">
         <button class="logout-btn" onclick="logout()">Logout</button>
@@ -29,9 +28,15 @@
         </div>
       </header>
       <div id="map"></div>
-      <div id="steps-container" class="steps-box"></div>
-      <div id="activity-container" class="activity-container"></div>
+      <!-- Directions Box (EV Charger Details) -->
+      <div id="steps-container" class="steps-box">
+        <h3>Step-by-Step Directions</h3>
+        <ul id="directions-list"></ul>
+        <button id="bookmark-charger-btn">⭐ Bookmark Charger</button>
+      </div>
 
+      <!-- Activity Container -->
+      <div id="activity-container" class="activity-container"></div>
     </div>
   </div>
 

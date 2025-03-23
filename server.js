@@ -160,3 +160,5 @@ app.post("/auth/google", async (req, res) => {
   }
 });
 
+const bookmarksRoutes = require("./routes/bookmarks");
+app.use("/api", bookmarksRoutes);

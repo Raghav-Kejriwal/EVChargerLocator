@@ -165,12 +165,23 @@ document.addEventListener('DOMContentLoaded', () => {
                                     const stepsContainer = document.getElementById("steps-container");
                                     stepsContainer.innerHTML = `
                                         <h3>Step-by-Step Directions</h3>
-                                        <ul>
+                                        <ul id="directions-list">
                                             ${steps.map(step => `<li>${step.instructions} (${step.readable_distance}, ${step.readable_duration})</li>`).join("")}
                                         </ul>
                                     `;
-
-                                    showActivityBoxes(station.station_id);
+                                
+                                    // ✅ Ensure the bookmark button stays
+                                    const bookmarkButton = document.createElement("button");
+                                    bookmarkButton.id = "bookmark-charger-btn";
+                                    bookmarkButton.textContent = "⭐ Bookmark Charger";
+                                    stepsContainer.appendChild(bookmarkButton);
+                                
+                                    // ✅ Reattach event listener for bookmarking
+                                    bookmarkButton.addEventListener("click", () => {
+                                        bookmarkCharger(station);
+                                    });
+                                
+                                    showActivityBoxes(station.station_id,station.name);
                                 });
                             })
                             .catch(err => console.error("Error calling Routing API:", err));
@@ -191,37 +202,85 @@ document.addEventListener('DOMContentLoaded', () => {
             activitiesData = data;
         })
         .catch(error => console.error("Error loading activities:", error));
-
-    function showActivityBoxes(stationId) {
-        const activityContainer = document.getElementById("activity-container");
-        activityContainer.innerHTML = ""; // Clear previous activities
-
-        // 🔍 Filter activities for this station
-        const stationActivities = activitiesData.filter(activity => activity.StationId === stationId);
-
-        if (stationActivities.length === 0) {
-            activityContainer.innerHTML = "<p>No activities found for this station.</p>";
-            return;
+        function showActivityBoxes(stationId, stationName) {
+            const activityContainer = document.getElementById("activity-container");
+            activityContainer.innerHTML = ""; // Clear previous activities
+        
+            console.log("Received stationId:", stationId);
+            console.log("Station Name:", stationName);
+            console.log("Available Activities Data:", activitiesData);
+        
+            if (!stationId) {
+                console.error("❌ Station ID is missing.");
+                activityContainer.innerHTML = "<p>Error: No station ID provided.</p>";
+                return;
+            }
+        
+            // 🔍 Keep your original filtering logic
+            const stationActivities = activitiesData.filter(activity => activity.StationId === stationId);
+        
+            if (stationActivities.length === 0) {
+                activityContainer.innerHTML = "<p>No activities found for this station.</p>";
+                return;
+            }
+        
+            // 🎲 Keep the original random selection logic
+            const selectedActivities = stationActivities.length > 3
+                ? stationActivities.sort(() => 0.5 - Math.random()).slice(0, 3)
+                : stationActivities;
+        
+            // 📦 Create activity boxes with bookmark buttons
+            selectedActivities.forEach(activity => {
+                const activityBox = document.createElement("div");
+                activityBox.classList.add("activity-box");
+                activityBox.innerHTML = `
+                    <h3>${activity.Name}</h3>
+                    <p>${activity.Description}</p>
+                    <button class="bookmark-activity-btn">⭐ Bookmark</button>
+                `;
+        
+                // ⭐ Add event listener to bookmark activity
+                activityBox.querySelector(".bookmark-activity-btn").addEventListener("click", () => {
+                    bookmarkActivity(activity, stationName);
+                });
+        
+                activityContainer.appendChild(activityBox);
+            });
         }
-
-        // 🎲 Pick 3 random activities
-        const selectedActivities = stationActivities.length > 3
-            ? stationActivities.sort(() => 0.5 - Math.random()).slice(0, 3)
-            : stationActivities;
-
-        // 📦 Create activity boxes
-        selectedActivities.forEach(activity => {
-            const activityBox = document.createElement("div");
-            activityBox.classList.add("activity-box");
-            activityBox.innerHTML = `
-                <h3>${activity.Name}</h3>
-                <p>${activity.Description}</p>
-            `;
-            activityContainer.appendChild(activityBox);
-        });
-
-        activityContainer.style.display = "flex";
-    }
+        
+        function bookmarkActivity(activity, chargerName) {
+            const user = JSON.parse(localStorage.getItem("user"));
+            if (!user || !user._id) {
+                alert("Please log in to bookmark activities.");
+                return;
+            }
+        
+            // 🔹 Prepare activity details for bookmarking
+            const activityDetails = {
+                userId: user._id,  // ✅ Ensure the correct user ID is sent
+                chargerName: chargerName,  // ✅ Linking activity to the charger
+                activityName: activity.Name,
+                activityDescription: activity.Description
+            };
+        
+            console.log("Sending bookmark request:", activityDetails);
+        
+            fetch("http://localhost:5000/api/bookmarks/activity", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(activityDetails),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(`✅ Activity '${activity.Name}' bookmarked under '${chargerName}'!`);
+                } else {
+                    alert("❌ Failed to bookmark: " + data.message);
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+        
     function performSearch(query) {
         fetch("stations_cleaned.json")
             .then(response => response.json())
@@ -280,12 +339,23 @@ document.addEventListener('DOMContentLoaded', () => {
                                 const stepsContainer = document.getElementById("steps-container");
                                 stepsContainer.innerHTML = `
                                     <h3>Step-by-Step Directions</h3>
-                                    <ul>
+                                    <ul id="directions-list">
                                         ${steps.map(step => `<li>${step.instructions} (${step.readable_distance}, ${step.readable_duration})</li>`).join("")}
                                     </ul>
                                 `;
-
-                                showActivityBoxes(station.station_id);
+                            
+                                // ✅ Ensure the bookmark button stays
+                                const bookmarkButton = document.createElement("button");
+                                bookmarkButton.id = "bookmark-charger-btn";
+                                bookmarkButton.textContent = "⭐ Bookmark Charger";
+                                stepsContainer.appendChild(bookmarkButton);
+                            
+                                // ✅ Reattach event listener for bookmarking
+                                bookmarkButton.addEventListener("click", () => {
+                                    bookmarkCharger(station);
+                                });
+                            
+                                showActivityBoxes(station.station_id,station.name);
                             });
                         })
                         .catch(err => console.error("Error calling Routing API:", err));
@@ -315,3 +385,34 @@ document.addEventListener('DOMContentLoaded', () => {
         return R * c;
     }
 });
+
+function bookmarkCharger(station) {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+        alert("Please log in to bookmark chargers.");
+        return;
+    }
+
+    const chargerDetails = {
+        userId: user._id,  // ✅ Ensure userId exists
+        stationName: station.name || "Unknown Charger",
+        location: station.city || "Unknown Location",
+        latitude: station.latitude || 0,
+        longitude: station.longitude || 0
+    };
+    console.log("Sending bookmark request:", chargerDetails);  // ✅ Log data being sent
+    fetch("http://localhost:5000/api/bookmarks/charger", {  // ✅ Corrected API URL
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(chargerDetails),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert("✅ Charger bookmarked successfully!");
+        } else {
+            alert("❌ Failed to bookmark.");
+        }
+    })
+    .catch(error => console.error("Error:", error));
+}
