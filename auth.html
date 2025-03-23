@@ -9,19 +9,26 @@
 <body>
   <div class="container" id="form-container">
     <h2 id="form-title">Sign Up</h2>
+
+    <!-- Sign-up Form -->
     <form id="signup-form">
-      <input type="text" placeholder="Username" required />
-      <input type="email" placeholder="Email" required />
-      <input type="password" placeholder="Password" required />
+      <input type="text" id="signup-username" placeholder="Username" required />
+      <input type="email" id="signup-email" placeholder="Email" required />
+      <input type="password" id="signup-password" placeholder="Password" required />
       <button type="submit">Sign Up</button>
     </form>
 
+    <!-- Login Form -->
     <form id="login-form" style="display: none;">
-      <input type="text" placeholder="Username or Email" required />
-      <input type="password" placeholder="Password" required />
+      <input type="text" id="login-email" placeholder="Username or Email" required />
+      <input type="password" id="login-password" placeholder="Password" required />
       <button type="submit">Login</button>
     </form>
 
+    <!-- Google Sign-In Button -->
+    <div id="google-signin-button"></div>
+
+    <!-- Toggle Sign-up/Login -->
     <div class="toggle-link">
       <span id="toggle-text">
         Already have an account? <a href="#" onclick="toggleForms()">Login</a>
@@ -29,6 +36,7 @@
     </div>
   </div>
 
-  <script src="auth.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script type="module" src="auth.js"></script>
 </body>
 </html>

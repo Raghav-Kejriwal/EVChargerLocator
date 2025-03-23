@@ -1,3 +1,6 @@
+const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+// Toggle Between Signup & Login Forms
 const signupForm = document.getElementById("signup-form");
 const loginForm = document.getElementById("login-form");
 const formTitle = document.getElementById("form-title");
@@ -8,22 +11,21 @@ function toggleForms() {
     signupForm.style.display = "block";
     loginForm.style.display = "none";
     formTitle.textContent = "Sign Up";
-    toggleText.innerHTML =
-      'Already have an account? <a href="#" onclick="toggleForms()">Login</a>';
+    toggleText.innerHTML = 'Already have an account? <a href="#" onclick="toggleForms()">Login</a>';
   } else {
     signupForm.style.display = "none";
     loginForm.style.display = "block";
     formTitle.textContent = "Login";
-    toggleText.innerHTML =
-      'Don\'t have an account? <a href="#" onclick="toggleForms()">Sign Up</a>';
+    toggleText.innerHTML = 'Don\'t have an account? <a href="#" onclick="toggleForms()">Sign Up</a>';
   }
 }
 
+// Handle Sign-up
 signupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const username = signupForm.querySelector('input[placeholder="Username"]').value;
-  const email = signupForm.querySelector('input[placeholder="Email"]').value;
-  const password = signupForm.querySelector('input[placeholder="Password"]').value;
+  const username = document.getElementById("signup-username").value;
+  const email = document.getElementById("signup-email").value;
+  const password = document.getElementById("signup-password").value;
 
   try {
     const response = await fetch("http://localhost:5000/signup", {
@@ -33,21 +35,21 @@ signupForm.addEventListener("submit", async (e) => {
     });
 
     if (response.ok) {
-      localStorage.setItem("user", JSON.stringify({ username })); // ✅ Store user in localStorage
-      alert("✅ Sign-up successful. Redirecting to main page...");
+      alert("✅ Sign-up successful!");
       window.location.href = "index.html";
     } else {
-      alert("❌ Sign-up failed. Please try again.");
+      alert("❌ Sign-up failed. Try again.");
     }
   } catch (err) {
     alert("❌ Error during sign-up.");
   }
 });
 
+// Handle Login
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const emailOrUsername = loginForm.querySelector('input[placeholder="Username or Email"]').value;
-  const password = loginForm.querySelector('input[placeholder="Password"]').value;
+  const emailOrUsername = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
 
   try {
     const response = await fetch("http://localhost:5000/login", {
@@ -57,13 +59,48 @@ loginForm.addEventListener("submit", async (e) => {
     });
 
     if (response.ok) {
-      localStorage.setItem("user", JSON.stringify({ username: emailOrUsername })); // ✅ Store user in localStorage
-      alert("✅ Login successful. Redirecting to main page...");
+      alert("✅ Login successful!");
       window.location.href = "index.html";
     } else {
-      alert("❌ Login failed. Check your credentials.");
+      alert("❌ Invalid credentials.");
     }
   } catch (err) {
     alert("❌ Error during login.");
   }
 });
+
+// Initialize Google Sign-In
+window.onload = function () {
+  google.accounts.id.initialize({
+    client_id: googleClientId,
+    callback: handleCredentialResponse,
+  });
+
+  google.accounts.id.renderButton(
+    document.getElementById("google-signin-button"),
+    { theme: "outline", size: "large" }
+  );
+};
+
+function handleCredentialResponse(response) {
+  console.log("Google Sign-In response:", response.credential);
+
+  fetch("http://localhost:5000/auth/google", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token: response.credential }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.success) {
+        // ✅ Store user info in localStorage
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        alert("✅ Google Sign-in successful!");
+        window.location.href = "http://localhost:5173/dashboard";  // Redirect to dashboard
+      } else {
+        alert("❌ Google Sign-in failed.");
+      }
+    })
+    .catch(() => alert("❌ Error during Google authentication."));
+}
