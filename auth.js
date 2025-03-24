@@ -1,24 +1,39 @@
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
-// Toggle Between Signup & Login Forms
+// Get form elements
 const signupForm = document.getElementById("signup-form");
 const loginForm = document.getElementById("login-form");
 const formTitle = document.getElementById("form-title");
 const toggleText = document.getElementById("toggle-text");
 
+// Toggle Between Signup & Login Forms
 function toggleForms() {
   if (signupForm.style.display === "none") {
     signupForm.style.display = "block";
     loginForm.style.display = "none";
     formTitle.textContent = "Sign Up";
-    toggleText.innerHTML = 'Already have an account? <a href="#" onclick="toggleForms()">Login</a>';
+    toggleText.innerHTML = 'Already have an account? <a href="#" id="toggle-link">Login</a>';
   } else {
     signupForm.style.display = "none";
     loginForm.style.display = "block";
     formTitle.textContent = "Login";
-    toggleText.innerHTML = 'Don\'t have an account? <a href="#" onclick="toggleForms()">Sign Up</a>';
+    toggleText.innerHTML = 'Don\'t have an account? <a href="#" id="toggle-link">Sign Up</a>';
   }
+
+  // Attach event listener after modifying innerHTML
+  document.getElementById("toggle-link").addEventListener("click", (e) => {
+    e.preventDefault();
+    toggleForms();
+  });
 }
+
+// Initial setup to attach event listener
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("toggle-link").addEventListener("click", (e) => {
+    e.preventDefault();
+    toggleForms();
+  });
+});
 
 // Handle Sign-up
 signupForm.addEventListener("submit", async (e) => {
