@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = "auth.html"; // Redirect if not logged in
         return;
     }
-    console.log
+    console.log(user)
     document.getElementById("username").textContent = user.username;
 
     // Fetch bookmarks
