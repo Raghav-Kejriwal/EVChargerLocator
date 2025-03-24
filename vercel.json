@@ -1,11 +1,13 @@
 {
-    "rewrites": [
+  "rewrites": [
     { "source": "/dashboard", "destination": "/index.html" },
-    { "source": "/profile", "destination": "/index.html" },
-    { "source": "/bookmarks", "destination": "/index.html" },
-    { "source": "/(.*)", "destination": "/index.html" },
-    { "source": "/api/(.*)", "destination": "https://evchargerlocator.onrender.com/api/$1" },
-    { "source": "/(.*)", "destination": "/index.html" }      
-    ]
-  }
-  
+    { "source": "/profile", "destination": "/profile.html" },
+    { "source": "/bookmarks", "destination": "/bookmarks.html" },
+    { "source": "/api/(.*)", "destination": "https://evchargerlocator.onrender.com/api/$1" }
+  ],
+  "routes": [
+    { "src": "/profile.js", "dest": "/profile.js" },
+    { "src": "/main.js", "dest": "/main.js" },
+    { "src": "/auth.js", "dest": "/auth.js" }
+  ]
+}
