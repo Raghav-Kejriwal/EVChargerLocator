@@ -5,6 +5,7 @@ const signupForm = document.getElementById("signup-form");
 const loginForm = document.getElementById("login-form");
 const formTitle = document.getElementById("form-title");
 const toggleText = document.getElementById("toggle-text");
+const toggleLink = document.getElementById("toggle-link"); // Ensure this exists in your HTML
 
 // Toggle Between Signup & Login Forms
 function toggleForms() {
@@ -12,27 +13,21 @@ function toggleForms() {
     signupForm.style.display = "block";
     loginForm.style.display = "none";
     formTitle.textContent = "Sign Up";
-    toggleText.innerHTML = 'Already have an account? <a href="#" id="toggle-link">Login</a>';
+    toggleText.textContent = "Already have an account? ";
+    toggleLink.textContent = "Login";
   } else {
     signupForm.style.display = "none";
     loginForm.style.display = "block";
     formTitle.textContent = "Login";
-    toggleText.innerHTML = 'Don\'t have an account? <a href="#" id="toggle-link">Sign Up</a>';
+    toggleText.textContent = "Don't have an account? ";
+    toggleLink.textContent = "Sign Up";
   }
-
-  // Attach event listener after modifying innerHTML
-  document.getElementById("toggle-link").addEventListener("click", (e) => {
-    e.preventDefault();
-    toggleForms();
-  });
 }
 
-// Initial setup to attach event listener
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("toggle-link").addEventListener("click", (e) => {
-    e.preventDefault();
-    toggleForms();
-  });
+// Attach toggle event listener once
+toggleLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  toggleForms();
 });
 
 // Handle Sign-up
@@ -121,4 +116,4 @@ function handleCredentialResponse(response) {
       }
     })
     .catch(() => alert("❌ Error during Google authentication."));
-}
+};
