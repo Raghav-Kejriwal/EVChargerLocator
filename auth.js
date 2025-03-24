@@ -97,7 +97,7 @@ function handleCredentialResponse(response) {
         localStorage.setItem("user", JSON.stringify(data.user));
 
         alert("✅ Google Sign-in successful!");
-        window.location.href = "https://evchargerlocator-2i5i94j6r-raghav-kejriwals-projects.vercel.app/dashboard";  // Redirect to dashboard
+        window.location.href = "https://evchargerlocator-7en5in7lc-raghav-kejriwals-projects.vercel.app/dashboard";  // Redirect to dashboard
       } else {
         alert("❌ Google Sign-in failed.");
       }

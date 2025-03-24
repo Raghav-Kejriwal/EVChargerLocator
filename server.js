@@ -21,7 +21,7 @@ app.use(session({
 }));
 app.use(bodyParser.json());
 app.use(cors({
-  origin: ["http://localhost:3000", "http://localhost:5173","https://evchargerlocator-2i5i94j6r-raghav-kejriwals-projects.vercel.app","https://evchargerlocator.onrender.com/"],
+  origin: ["http://localhost:3000", "http://localhost:5173","https://evchargerlocator-7en5in7lc-raghav-kejriwals-projects.vercel.app","https://evchargerlocator.onrender.com/"],
   credentials: true
 }));
 app.use(passport.initialize());
@@ -117,7 +117,7 @@ app.get('/auth/google',
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
-    res.redirect('https://evchargerlocator-2i5i94j6r-raghav-kejriwals-projects.vercel.app/dashboard');
+    res.redirect('https://evchargerlocator-7en5in7lc-raghav-kejriwals-projects.vercel.app');
   }
 );
 
