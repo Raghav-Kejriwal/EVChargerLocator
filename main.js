@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const userLat = position.coords.latitude;
                 const userLng = position.coords.longitude;
 
-                fetch("https://evchargerlocator.onrender.com/api/stations_cleaned.json")
+                fetch("https://evchargerlocator.onrender.com/api/stations")
                     .then(response => response.json())
                     .then(stations => {
                         const nearbyStations = stations.filter(station => {
@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let activitiesData = [];
 
     // 🚀 Fetch activities from activities.json
-    fetch("https://evchargerlocator.onrender.com/api/activities.json")
+    fetch("https://evchargerlocator.onrender.com/api/activities")
         .then(response => response.json())
         .then(data => {
             activitiesData = data;
@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
     function performSearch(query) {
-        fetch("https://evchargerlocator.onrender.com/api/stations_cleaned.json")
+        fetch("https://evchargerlocator.onrender.com/api/stations")
             .then(response => response.json())
             .then(stations => {
                 const results = stations.filter(station => 
