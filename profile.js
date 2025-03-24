@@ -19,6 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const chargersList = document.getElementById("chargers-list");
             const activitiesList = document.getElementById("activities-list");
         
+            if (!chargersList || !activitiesList) {
+                console.error("Error: Chargers or Activities list element not found!");
+                return;
+            }
+        
             chargersList.innerHTML = "";
             activitiesList.innerHTML = "";
         
@@ -47,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     activitiesList.appendChild(div);
                 }
             });
-        }
+        }        
 });
 
 // Remove a bookmark
