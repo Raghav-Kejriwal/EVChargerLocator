@@ -128,6 +128,48 @@ app.post("/logout", (req, res) => {
   });
 });
 
+const fs = require("fs");
+const path = require("path");
+
+// API Route: Serve activities.json
+app.get("/api/activities", (req, res) => {
+    const filePath = path.join(__dirname, "activities.json");  // 🔹 Ensure correct path
+
+    fs.readFile(filePath, "utf8", (err, data) => {
+        if (err) {
+            console.error("Error reading activities.json:", err);
+            return res.status(500).json({ message: "Server error" });
+        }
+
+        try {
+            const activities = JSON.parse(data);  // ✅ Convert JSON string to object
+            res.json(activities);  // ✅ Send JSON response
+        } catch (parseError) {
+            console.error("Error parsing JSON:", parseError);
+            res.status(500).json({ message: "Invalid JSON format" });
+        }
+    });
+});
+
+app.get("/api/stations", (req, res) => {
+  const filePath = path.join(__dirname, "stations_cleaned.json");  // ✅ Ensure correct path
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+      if (err) {
+          console.error("Error reading stations_cleaned.json:", err);
+          return res.status(500).json({ message: "Server error" });
+      }
+
+      try {
+          const stations = JSON.parse(data);  // ✅ Convert JSON string to object
+          res.json(stations);  // ✅ Send JSON response
+      } catch (parseError) {
+          console.error("Error parsing JSON:", parseError);
+          res.status(500).json({ message: "Invalid JSON format" });
+      }
+  });
+});
+
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

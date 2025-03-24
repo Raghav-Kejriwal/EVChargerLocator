@@ -1,9 +1,11 @@
 {
     "rewrites": [
-      { "source": "/dashboard", "destination": "/index.html" },
-      { "source": "/profile", "destination": "/index.html" },
-      { "source": "/bookmarks", "destination": "/index.html" },
-      { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/dashboard", "destination": "/index.html" },
+    { "source": "/profile", "destination": "/index.html" },
+    { "source": "/bookmarks", "destination": "/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" },
+    { "source": "/api/(.*)", "destination": "https://evchargerlocator.onrender.com/api/$1" },
+    { "source": "/(.*)", "destination": "/index.html" }      
     ]
   }
   
