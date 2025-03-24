@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("username").textContent = user.username;
 
     // Fetch bookmarks
-    fetch(`https://evchargerlocator.onrender.com/api/bookmarks/${user.userId}`)
+    fetch(`https://evchargerlocator.onrender.com/api/bookmarks/${user._id}`)
         .then(response => response.json())
         .then(data => {
             displayBookmarks(data);
@@ -40,14 +40,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (bookmark.type === "charger") {
                     div.innerHTML = `
                         <span>🔌 ${bookmark.stationName} (${bookmark.location})</span>
-                        <button class="remove-btn" onclick="removeBookmark('${bookmark.userId}')">Remove</button>
+                        <button class="remove-btn" onclick="removeBookmark('${bookmark._id}')">Remove</button>
                     `;
                     chargersList.appendChild(div);
                 } else if (bookmark.type === "activity") {
                     div.innerHTML = `
                         <span>🎉 ${bookmark.activityName}: ${bookmark.activityDescription} 
                         (📍 at ${bookmark.chargerName})</span>
-                        <button class="remove-btn" onclick="removeBookmark('${bookmark.userId}')">Remove</button>
+                        <button class="remove-btn" onclick="removeBookmark('${bookmark._id}')">Remove</button>
 
                     `;
                     activitiesList.appendChild(div);
