@@ -52,10 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     activitiesList.appendChild(div);
                 }
             });
-        }        
-});
-
-// Remove a bookmark
+        }
+        // Remove a bookmark
 function removeBookmark(bookmarkId) {
     fetch(`https://evchargerlocator.onrender.com/api/bookmarks/${bookmarkId}`, { method: "DELETE" })
         .then(response => response.json())
@@ -71,3 +69,5 @@ function logout() {
     localStorage.removeItem("user");
     window.location.href = "auth.html";
 }
+});
+
