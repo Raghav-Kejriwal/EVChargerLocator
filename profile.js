@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("username").textContent = user.username;
 
     // Fetch bookmarks
-    fetch(`https://evchargerlocator.onrender.com/api/bookmarks/${user._id}`)
+    fetch(`https://evchargerlocator.onrender.com/api/bookmarks/${user.userId}`)
         .then(response => response.json())
         .then(data => {
             displayBookmarks(data);
