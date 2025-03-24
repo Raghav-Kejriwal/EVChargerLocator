@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const removeButton = document.createElement("button");
             removeButton.classList.add("remove-btn");
             removeButton.textContent = "Remove";
-            removeButton.addEventListener("click", () => removeBookmark(bookmark.userId)); // ✅ Attach dynamically
+            removeButton.addEventListener("click", () => removeBookmark(bookmark._id)); // ✅ Attach dynamically
 
             const span = document.createElement("span");
             if (bookmark.type === "charger") {
