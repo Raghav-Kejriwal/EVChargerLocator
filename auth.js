@@ -94,8 +94,11 @@ function handleCredentialResponse(response) {
     .then((data) => {
       if (data.success) {
         // ✅ Store user info in localStorage
-        localStorage.setItem("user", JSON.stringify(data.user));
-
+        localStorage.setItem("user", JSON.stringify({
+          _id: data.user._id,
+          userId: data.user._id,
+          username: data.user.username
+        }));
         alert("✅ Google Sign-in successful!");
         window.location.href = "https://evchargerlocator.vercel.app/dashboard";  // Redirect to dashboard
       } else {
