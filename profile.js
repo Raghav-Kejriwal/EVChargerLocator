@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("username").textContent = user.username;
 
     // Fetch bookmarks
-    fetch(`http://localhost:5000/api/bookmarks/${user._id}`)
+    fetch(`https://evchargerlocator.onrender.com/api/bookmarks/${user._id}`)
         .then(response => response.json())
         .then(data => {
             displayBookmarks(data);
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Remove a bookmark
 function removeBookmark(bookmarkId) {
-    fetch(`http://localhost:5000/api/bookmarks/${bookmarkId}`, { method: "DELETE" })
+    fetch(`https://evchargerlocator.onrender.com/api/bookmarks/${bookmarkId}`, { method: "DELETE" })
         .then(response => response.json())
         .then(data => {
             alert("Bookmark removed!");

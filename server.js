@@ -21,7 +21,7 @@ app.use(session({
 }));
 app.use(bodyParser.json());
 app.use(cors({
-  origin: ["http://localhost:3000", "http://localhost:5173"],
+  origin: ["http://localhost:3000", "http://localhost:5173","https://evchargerlocator-2i5i94j6r-raghav-kejriwals-projects.vercel.app","https://evchargerlocator.onrender.com/"],
   credentials: true
 }));
 app.use(passport.initialize());
@@ -46,7 +46,7 @@ const User = mongoose.model('User', UserSchema);
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "http://localhost:5000/auth/google/callback"
+  callbackURL: "https://evchargerlocator.onrender.com/auth/google/callback"
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     let user = await User.findOne({ googleId: profile.id });
@@ -117,7 +117,7 @@ app.get('/auth/google',
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
-    res.redirect('http://localhost:5173/dashboard');
+    res.redirect('https://evchargerlocator-2i5i94j6r-raghav-kejriwals-projects.vercel.app/dashboard');
   }
 );
 

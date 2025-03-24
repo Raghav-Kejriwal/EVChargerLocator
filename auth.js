@@ -28,7 +28,7 @@ signupForm.addEventListener("submit", async (e) => {
   const password = document.getElementById("signup-password").value;
 
   try {
-    const response = await fetch("http://localhost:5000/signup", {
+    const response = await fetch("https://evchargerlocator.onrender.com/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, email, password }),
@@ -52,7 +52,7 @@ loginForm.addEventListener("submit", async (e) => {
   const password = document.getElementById("login-password").value;
 
   try {
-    const response = await fetch("http://localhost:5000/login", {
+    const response = await fetch("https://evchargerlocator.onrender.com/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ emailOrUsername, password }),
@@ -85,7 +85,7 @@ window.onload = function () {
 function handleCredentialResponse(response) {
   console.log("Google Sign-In response:", response.credential);
 
-  fetch("http://localhost:5000/auth/google", {
+  fetch("https://evchargerlocator.onrender.com/auth/google", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ token: response.credential }),
@@ -97,7 +97,7 @@ function handleCredentialResponse(response) {
         localStorage.setItem("user", JSON.stringify(data.user));
 
         alert("✅ Google Sign-in successful!");
-        window.location.href = "http://localhost:5173/dashboard";  // Redirect to dashboard
+        window.location.href = "https://evchargerlocator-2i5i94j6r-raghav-kejriwals-projects.vercel.app/dashboard";  // Redirect to dashboard
       } else {
         alert("❌ Google Sign-in failed.");
       }

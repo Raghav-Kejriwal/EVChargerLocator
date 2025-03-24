@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
             console.log("Sending bookmark request:", activityDetails);
         
-            fetch("http://localhost:5000/api/bookmarks/activity", {
+            fetch("https://evchargerlocator.onrender.com/api/bookmarks/activity", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(activityDetails),
@@ -401,7 +401,7 @@ function bookmarkCharger(station) {
         longitude: station.longitude || 0
     };
     console.log("Sending bookmark request:", chargerDetails);  // ✅ Log data being sent
-    fetch("http://localhost:5000/api/bookmarks/charger", {  // ✅ Corrected API URL
+    fetch("https://evchargerlocator.onrender.com/api/bookmarks/charger", {  // ✅ Corrected API URL
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(chargerDetails),
