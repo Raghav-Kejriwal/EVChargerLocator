@@ -40,34 +40,35 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (bookmark.type === "charger") {
                     div.innerHTML = `
                         <span>🔌 ${bookmark.stationName} (${bookmark.location})</span>
-                        <button class="remove-btn" onclick="removeBookmark('${bookmark.userId}')">Remove</button>
+                        <button class="remove-btn" onclick="removeBookmark(${bookmark.userId})">Remove</button>
                     `;
                     chargersList.appendChild(div);
                 } else if (bookmark.type === "activity") {
                     div.innerHTML = `
                         <span>🎉 ${bookmark.activityName}: ${bookmark.activityDescription} 
                         (📍 at ${bookmark.chargerName})</span>
-                        <button class="remove-btn" onclick="removeBookmark('${bookmark.userId}')">Remove</button>
+                        <button class="remove-btn" onclick="removeBookmark(${bookmark.userId})">Remove</button>
+
                     `;
                     activitiesList.appendChild(div);
                 }
             });
         }
         // Remove a bookmark
-function removeBookmark(bookmarkId) {
-    fetch(`https://evchargerlocator.onrender.com/api/bookmarks/${bookmarkId}`, { method: "DELETE" })
-        .then(response => response.json())
-        .then(data => {
-            alert("Bookmark removed!");
-            window.location.reload();
-        })
-        .catch(error => console.error("Error removing bookmark:", error));
-}
+        function removeBookmark(bookmarkId) {
+            fetch(`https://evchargerlocator.onrender.com/api/bookmarks/${bookmarkId}`, { method: "DELETE" })
+                .then(response => response.json())
+                .then(data => {
+                    alert("Bookmark removed!");
+                    window.location.reload();
+                })
+                .catch(error => console.error("Error removing bookmark:", error));
+        }
 
-// Logout
-function logout() {
-    localStorage.removeItem("user");
-    window.location.href = "auth.html";
-}
+        // Logout
+        function logout() {
+            localStorage.removeItem("user");
+            window.location.href = "auth.html";
+        }
 });
 
